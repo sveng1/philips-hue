@@ -14,6 +14,19 @@ def get_light_state(light):
     return state
 
 
+def get_connected_lights(bridge_url, user):
+    """
+    Get a list of light urls connected to bridge
+    :param bridge_url: str, bridge url
+    :param user: str, user id
+    :return: lights, list, url for each light connected
+    """
+    lights_info = requests.get(bridge_url+'/api/'+user+'/lights')
+    light_ids = list(json.loads(lights_info.text).keys())
+    lights = [bridge_url+'/api/'+user+'/lights/'+idx for idx in light_ids]
+    return lights
+
+
 def set_brightness(light, value):
     """
     Sets the brightness value for a single light
